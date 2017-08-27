@@ -3,24 +3,25 @@
 
     $connect = mysqli_connect("my_host", "my_user", "my_password", "my_database");
     
-    $name = $_POST["name"];
-    $age = $_POST["age"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $first_name = $_POST["first_name"];
+    $last_name = $_POST["last_name"];
+    $email = $_POST["email"];
+    $pass = $_POST["pass"];
+    $phone =$_POST["phone"];
 
      function registerUser() {
-        global $connect, $name, $age, $username, $password;
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $statement = mysqli_prepare($connect, "INSERT INTO user (name, age, username, password) VALUES (?, ?, ?, ?)");
-        mysqli_stmt_bind_param($statement, "siss", $name, $age, $username, $passwordHash);
+        global $connect, $first_name, $last_name, $email, $pass,$phone;
+        $passHash = password_hash($pass, PASSWORD_DEFAULT);
+        $statement = mysqli_prepare($connect, "INSERT INTO admin (first_name,last_name, email, phone, pass) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($statement, "siss", $first_name, $last_name, $email, $passwordHash, $phone);
         mysqli_stmt_execute($statement);
         mysqli_stmt_close($statement);     
     }
 
     function usernameAvailable() {
-        global $connect, $username;
-        $statement = mysqli_prepare($connect, "SELECT * FROM user WHERE username = ?"); 
-        mysqli_stmt_bind_param($statement, "s", $username);
+        global $connect, $email;
+        $statement = mysqli_prepare($connect, "SELECT * FROM admin WHERE username = ?"); 
+        mysqli_stmt_bind_param($statement, "s", $email);
         mysqli_stmt_execute($statement);
         mysqli_stmt_store_result($statement);
         $count = mysqli_stmt_num_rows($statement);
